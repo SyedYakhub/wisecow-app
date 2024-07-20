@@ -30,12 +30,12 @@ jobs:
           tags: yakhub4881/wisecow:latest
 
       - name: Set up kubectl
-        uses: k8s/setup-kubectl@v1
+        uses: k8s/github-actions/setup-kubectl@v1
         with:
           version: 'latest'
 
       - name: Set up Kubeconfig
-        uses: k8s/config@v1
+        uses: k8s/github-actions/config@v1
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
