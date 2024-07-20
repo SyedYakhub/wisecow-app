@@ -41,6 +41,8 @@ jobs:
         
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/deployment.yml
-          kubectl apply -f k8s/service.yml
+          kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml \
+            apply -f k8s/deployment.yml
+          kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml \
+            apply -f k8s/service.yml
           
