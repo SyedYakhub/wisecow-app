@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: service
+metadata:
+  name: wisecow-service
+spec:
+  type: NodePort
+  ports:
+    - port: 52111
+      targetPort: 4499
+      NodePort: 31002
+  selector:
+    app: wisecow
