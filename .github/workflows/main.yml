@@ -37,10 +37,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: List files (for debugging)
-        run: |
-          ls -l
-
       - name: Install kubectl
         run: |
           # Download kubectl
@@ -62,5 +58,5 @@ jobs:
       - name: Deploy to k3s cluster
         run: |
           # Apply the deployment and service configurations to the k3s cluster
-          kubectl apply -f deployment.yml
-          kubectl apply -f service.yml
+          kubectl apply -f k8s/deployment.yml
+          kubectl apply -f k8s/service.yml
