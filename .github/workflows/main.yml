@@ -10,39 +10,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Log in to Docker Hub
+      - name: Log in to DockerHub
         uses: docker/login-action@v1
         with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: yakhub4881/wisecow:latest
-
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: 'latest'
-
-      - name: Set up Kubeconfig
         run: |
-            mkdir -p $HOME/.kube
-            echo "${{ secrets.KUBE_CONFIG }}" | base64 -d > $HOME/.kube/config
-        
-      - name: Deploy to Kubernetes
+          # Build the Docker image with a tag that includes your DockerHub username
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/wiseapp:latest .
+          # Push the Docker image to DockerHub
+          docker push ${{ secrets.DOCKER_USERNAME }}/wiseapp:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install kubectl
         run: |
-          kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml \
-            apply -f k8s/deployment.yml
-          kubectl --kubeconfig=/etc/rancher/k3s/k3s.yaml \
-            apply -f k8s/service.yml
-          
+          # Download kubectl
+          curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+          # Make the kubectl binary executable
+          chmod +x ./kubectl
+          # Move the kubectl binary to /usr/local/bin/ so it can be accessed from anywhere
+          sudo mv ./kubectl /usr/local/bin/kubectl
+
+      - name: Configure kubeconfig
+        run: |
+          # Create the .kube directory in the home directory
+          mkdir -p $HOME/.kube
+          # Add the kubeconfig content from GitHub Secrets to the config file
+          echo "${{ secrets.K3S_CONFIG }}" > $HOME/.kube/config
+          # Set the permissions of the config file to be readable and writable only by the owner
+          chmod 600 $HOME/.kube/config
+
+      - name: Deploy to k3s cluster
+        run: |
+          # Apply the deployment and service configurations to the k3s cluster
+          kubectl apply -f deployment.yml
+          kubectl apply -f service.yml
