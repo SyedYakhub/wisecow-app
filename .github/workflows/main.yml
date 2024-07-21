@@ -39,12 +39,12 @@ jobs:
 
       - name: Install kubectl
         run: |
-          # Download kubectl
-          curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-          # Make the kubectl binary executable
-          chmod +x ./kubectl
-          # Move the kubectl binary to /usr/local/bin/ so it can be accessed from anywhere
-          sudo mv ./kubectl /usr/local/bin/kubectl
+            # Download kubectl
+            curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+            # Make the kubectl binary executable
+            chmod +x ./kubectl
+            # Move the kubectl binary to /usr/local/bin/ so it can be accessed from anywhere
+            sudo mv ./kubectl /usr/local/bin/kubectl
 
       - name: Configure kubeconfig
         run: |
