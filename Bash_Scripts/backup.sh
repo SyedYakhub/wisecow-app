@@ -3,7 +3,7 @@
 # Configuration
 SOURCE_DIR="/root/wisecow_creds"         # Local directory you want to back up
 REMOTE_USER="ec2-user"                   # Username on the remote server
-REMOTE_HOST="ip-172-31-40-101"           # Address of the remote server
+REMOTE_HOST="placeholder_ip"             # Address of the remote server [sensitive information has been replaced with placeholders for security reasons]
 REMOTE_DIR="/home/ec2-user/creds"        # Directory on the remote server where the backup will be stored
 LOG_FILE="/root/backup.log"              # Local file where you'll save the log
 
