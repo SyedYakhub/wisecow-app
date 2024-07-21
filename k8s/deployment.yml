@@ -10,10 +10,10 @@ spec:
   template:
     metadata:
       labels:
-        name: wisecow
+        app: wisecow
     spec:
       containers:
-        - name: wisecoe-container
+        - name: wisecow-container
           image: yakhub4881/wisecow:latest
           ports:
             - containerPort: 4499
