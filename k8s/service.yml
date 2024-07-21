@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: wisecow-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 52111
       targetPort: 4499
+      nodePort: 31002
   selector:
     app: wisecow
