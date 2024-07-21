@@ -37,6 +37,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: List files (for debugging)
+        run: |
+          ls -l
+
       - name: Install kubectl
         run: |
           # Download kubectl
