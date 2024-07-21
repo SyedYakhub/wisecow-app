@@ -11,4 +11,3 @@ if [ "$STATUS_CODE" -eq 200 ]; then
 else
     echo "Wisecow application is down. Status code: $STATUS_CODE"
 fi
-
