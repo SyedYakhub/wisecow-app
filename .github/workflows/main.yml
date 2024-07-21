@@ -55,6 +55,15 @@ jobs:
           # Set the permissions of the config file to be readable and writable only by the owner
           chmod 600 $HOME/.kube/config
 
+      - name: Debug kubeconfig
+        run: |
+          # Check kubectl version
+          kubectl version
+          # Check cluster info
+          kubectl cluster-info
+          # Get nodes info
+          kubectl get nodes
+
       - name: Deploy to k3s cluster
         run: |
           # Apply the deployment and service configurations to the k3s cluster
